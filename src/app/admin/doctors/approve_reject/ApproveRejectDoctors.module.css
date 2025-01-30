@@ -1,0 +1,47 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #4CAF50;
+  color: white;
+  text-align: left;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button-approve {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button-reject {
+  background-color: #f44336;
+  color: white;
+}

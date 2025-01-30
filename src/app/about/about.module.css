@@ -1,0 +1,10 @@
+.ourTeamTopContainer {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+}
+
+.containerEffect {
+  opacity: 0.45;
+  background: linear-gradient(135deg, #ffdee9 0%, #c8fff4 100%);
+}
