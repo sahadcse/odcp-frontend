@@ -26,8 +26,21 @@ const consultation_type = [
     { id: "1", value: "Video" },
 ];
 
+interface Doctor {
+    _id: string;
+    full_name: string;
+    consultation_fee: number;
+    specialization: string; // Add this field
+    availability?: Array<{
+        day: string;
+        time_slots: string[];
+    }>;
+}
+
 const Appointment = () => {
-    const [doctors, setDoctors] = useState([]);
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [specializations, setSpecializations] = useState<string[]>([]);
+    const [selectedSpecialization, setSelectedSpecialization] = useState<string>('');
     const isAuthenticated = useisAuthenticated();
 
     useEffect(() => {
@@ -40,12 +53,20 @@ const Appointment = () => {
                     }
                 );
                 setDoctors(response.data);
+                // Extract unique specializations
+                const uniqueSpecializations = [...new Set(response.data.map((doc: Doctor) => doc.specialization))] as string[];
+                setSpecializations(uniqueSpecializations);
             } catch (err) {
                 console.error("Error fetching doctors:", err);
             }
         };
         fetchDoctors();
     }, []);
+
+    // Filter doctors based on specialization
+    const filteredDoctors = selectedSpecialization
+        ? doctors.filter(doc => doc.specialization === selectedSpecialization)
+        : doctors;
 
     const validationSchema = Yup.object({
         doctor: Yup.string().required("Doctor is required"),
@@ -56,9 +77,24 @@ const Appointment = () => {
         reason: Yup.string().required("Reason is required"),
     });
 
-    const FormFields = ({ doctors, availableTimeSlot }) => {
+    interface FormValues {
+        doctor: string;
+        day: string;
+        timeSlot: string;
+        consultation_type: string;
+        reason: string;
+        availableTimeSlot: Array<{ id: number; value: string }>;
+        time_slot: string;
+        appointment_date: string;
+    }
 
-        const { values, setFieldValue } = useFormikContext();
+    interface FormFieldsProps {
+        doctors: Doctor[];
+        availableTimeSlot: Array<{ id: number; value: string }>;
+    }
+
+    const FormFields = ({ doctors, availableTimeSlot }: FormFieldsProps) => {
+        const { values, setFieldValue } = useFormikContext<FormValues>();
 
         if (values.doctor && !isAuthenticated) {
             Swal.fire({
@@ -70,11 +106,19 @@ const Appointment = () => {
             return;
         }
 
-
-
         useEffect(() => {
-            const selectedDoctor = doctors.find(
-                (doc) => doc._id === values.doctor
+            interface Doctor {
+                _id: string;
+                full_name: string;
+                consultation_fee: number;
+                availability?: Array<{
+                    day: string;
+                    time_slots: string[];
+                }>;
+            }
+
+            const selectedDoctor: Doctor | undefined = doctors.find(
+                (doc: Doctor) => doc._id === values.doctor
             );
             if (selectedDoctor?.availability) {
                 const timeSlots = selectedDoctor.availability
@@ -91,114 +135,136 @@ const Appointment = () => {
             }
         }, [values.doctor, values.day, doctors, setFieldValue]);
 
-        console.log(values)
+        // console.log(values)
 
         return (
-            <>
-                <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Add Specialization Filter */}
+                <div className="">
+                    <label className="block text-white text-sm font-medium mb-2">
+                        Filter by Specialization
+                    </label>
+                    <select
+                        className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                        border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                        focus:ring-teal-500 focus:border-transparent transition duration-200"
+                        value={selectedSpecialization}
+                        onChange={(e) => setSelectedSpecialization(e.target.value)}
+                    >
+                        <option value="" className="text-black">All Specializations</option>
+                        {specializations.map((spec) => (
+                            <option key={spec} value={spec} className="text-black">
+                                {spec}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="">
+                    <label className="block text-white text-sm font-medium mb-2">Select Doctor</label>
                     <Field
                         as="select"
                         id="doctor"
                         name="doctor"
-                        className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                        className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                        border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                        focus:ring-teal-500 focus:border-transparent transition duration-200"
                     >
                         <option value="">Select Doctor</option>
-                        {doctors.map((doc) => (
-                            <option key={doc._id} value={doc._id}>
-                                {doc.full_name}
+                        {filteredDoctors.map((doc) => (
+                            <option key={doc._id} value={doc._id} className="text-black">
+                                {doc.full_name} - {doc.specialization}
                             </option>
                         ))}
                     </Field>
-                    <ErrorMessage name="doctor" component="div" className="text-red-500 text-sm" />
+                    <ErrorMessage name="doctor" component="div" className="mt-1 text-red-400 text-sm" />
                 </div>
 
                 <div>
+                    <label className="block text-white text-sm font-medium mb-2">Select Day</label>
                     <Field
                         as="select"
                         id="day"
                         name="day"
-                        className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                        className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                        border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                        focus:ring-teal-500 focus:border-transparent transition duration-200"
                     >
                         {days.map((day) => (
-                            <option key={day.id} value={day.value}>
+                            <option key={day.id} value={day.value} className="text-black">
                                 {day.value}
                             </option>
                         ))}
                     </Field>
-                    <ErrorMessage name="day" component="div" className="text-red-500 text-sm" />
+                    <ErrorMessage name="day" component="div" className="mt-1 text-red-400 text-sm" />
                 </div>
 
                 {values.availableTimeSlot?.length > 0 && (
                     <div>
+                        <label className="block text-white text-sm font-medium mb-2">Select Time</label>
                         <Field
                             as="select"
                             id="timeSlot"
                             name="timeSlot"
-                            className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                            className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                            border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                            focus:ring-teal-500 focus:border-transparent transition duration-200"
                         >
                             <option value="">Select Time Slot</option>
                             {values.availableTimeSlot.map((slot) => (
-                                <option key={slot.id} value={slot.value}>
+                                <option key={slot.id} value={slot.value} className="text-black">
                                     {slot.value}
                                 </option>
                             ))}
                         </Field>
-                        <ErrorMessage name="timeSlot" component="div" className="text-red-500 text-sm" />
+                        <ErrorMessage name="timeSlot" component="div" className="mt-1 text-red-400 text-sm" />
                     </div>
                 )}
 
-                <div>
-                    <Field
-                        as="select"
-                        id="consultation_type"
-                        name="consultation_type"
-                        className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
-                    >
-                        {consultation_type.map((type) => (
-                            <option key={type.id} value={type.value}>
-                                {type.value}
-                            </option>
-                        ))}
-                    </Field>
-                    <ErrorMessage name="consultation_type" component="div" className="text-red-500 text-sm" />
-                </div>
-
-                <div>
+                <div className="">
+                    <label className="block text-white text-sm font-medium mb-2">Appointment Date</label>
                     <Field
                         type="date"
                         id="appointment_date"
                         name="appointment_date"
-                        className="block w-full rounded-full border-0 py-2.5 px-4 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                        className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                        border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                        focus:ring-teal-500 focus:border-transparent transition duration-200"
                     />
-                    <ErrorMessage name="reason" component="div" className="text-red-500 text-sm" />
+                    <ErrorMessage name="appointment_date" component="div" className="mt-1 text-red-400 text-sm" />
                 </div>
-                <div>
+
+                <div className="md:col-span-2">
+                    <label className="block text-white text-sm font-medium mb-2">Reason for Visit</label>
                     <Field
                         as="textarea"
                         id="reason"
                         name="reason"
-                        placeholder="Reason for visit"
-                        className="block w-full rounded-full border-0 py-2.5 px-4 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                        rows={4}
+                        placeholder="Please describe your symptoms or reason for visit"
+                        className="w-full outline-none px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md 
+                        border border-white/20 text-white placeholder-white/60 focus:ring-2 
+                        focus:ring-teal-500 focus:border-transparent transition duration-200 "
                     />
-                    <ErrorMessage name="reason" component="div" className="text-red-500 text-sm" />
+                    <ErrorMessage name="reason" component="div" className="mt-1 text-red-400 text-sm" />
                 </div>
-            </>
+            </div>
         );
     };
 
     return (
-        <div className="relative my-5 lg:my-32 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat">
-            <div className="absolute inset-0 bg-[#08595a]/75 z-0"></div>
-            <div className="relative flex flex-col items-center">
-                <div className="flex flex-col lg:flex-row lg:justify-between gap-8 w-full lg:w-3/4">
-                    <div className="w-full lg:w-1/2 py-24 p-10 flex flex-col items-center">
-                        <div className="text-center mb-8">
-                            <p className="text-white text-xl font-bold">| Appointment</p>
-                            <h1 className="text-white text-3xl lg:text-4xl font-semibold">
-                                Apply For Free Now
-                            </h1>
-                        </div>
+        <div className="relative min-h-screen py-20 bg-gradient-to-br from-teal-900 to-slate-900">
+            <div className="absolute inset-0 bg-[url('../images/appointment_bg.jpg')] bg-cover bg-center opacity-10"></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                        Book Your Appointment
+                    </h2>
+                    <div className="h-1 w-20 bg-teal-500 mx-auto rounded-full"></div>
+                </div>
 
+                <div className="max-w-4xl mx-auto">
+                    <div className="backdrop-blur-lg bg-white/5 rounded-2xl shadow-2xl border border-white/10 p-8">
                         <Formik
                             initialValues={{
                                 doctor: "",
@@ -223,7 +289,7 @@ const Appointment = () => {
                                         time_slot: values.timeSlot,
                                         status: "Pending",
                                         reason_for_visit: values.reason,
-                                        booking_fee: doctors.find(item => item._id === values.doctor).consultation_fee || 0
+                                        booking_fee: doctors.find(item => item._id === values.doctor)?.consultation_fee || 0
                                         ,
                                         payment_status: "Paid"
                                     };
@@ -251,29 +317,33 @@ const Appointment = () => {
                             }}
                         >
                             {({ isSubmitting, values }) => (
-                                <Form className="space-y-4 w-full">
+                                <Form className="space-y-8">
                                     <FormFields doctors={doctors} availableTimeSlot={values.availableTimeSlot} />
-                                    <div className="text-center">
+                                    <div className="text-center pt-4">
                                         <button
                                             type="submit"
-                                            className="btn rounded-full bg-white text-black text-base mt-4 lg:w-72"
                                             disabled={isSubmitting}
+                                            className="inline-flex items-center px-8 py-3 rounded-lg 
+                                            bg-teal-500 hover:bg-teal-600 text-white font-semibold 
+                                            transition duration-200 transform hover:scale-105 
+                                            disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            {isSubmitting ? "Submitting..." : "Submit"}
+                                            {isSubmitting ? (
+                                                <>
+                                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Processing...
+                                                </>
+                                            ) : (
+                                                'Book Appointment'
+                                            )}
                                         </button>
                                     </div>
                                 </Form>
                             )}
                         </Formik>
-                    </div>
-
-                    <div className="hidden lg:block w-full lg:w-1/2 flex items-center justify-center lg:justify-end relative">
-                        <Image
-                            src={DoctorImg}
-                            alt="Doctor"
-                            className="max-w-full h-auto"
-                            style={{ position: "absolute", top: "-2", bottom: "0" }}
-                        />
                     </div>
                 </div>
             </div>

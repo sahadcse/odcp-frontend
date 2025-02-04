@@ -43,6 +43,28 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
+interface Feature {
+    name: string;
+    description: string;
+    icon: string;
+    bg: string;
+}
+
+const FeatureItem = ({ feature }: { feature: Feature }) => (
+    <motion.div 
+        className="relative pl-16"
+        variants={itemVariants}
+    >
+        <dt className="text-lg font-semibold leading-7 text-gray-900">
+            <div className={`absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-full me-4 work-sans text-color-black ${feature.bg}`}>
+                <h1 className="text-white text-center text-2xl">{feature.icon}</h1>
+            </div>
+            {feature.name}
+        </dt>
+        <dd className="mt-2 text-base leading-7 text-gray-600">{feature.description}</dd>
+    </motion.div>
+);
+
 const WorkingProcess = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
@@ -61,7 +83,7 @@ const WorkingProcess = () => {
                     variants={itemVariants}
                 >
                     <p className="py-4 text-lg font-dm-sans font-bold text-color-secondary leading-snug">
-                        | How We Work
+                        How We Work
                     </p>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
                         Our Working Process
@@ -74,19 +96,7 @@ const WorkingProcess = () => {
                 >
                     <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-14">
                         {features.map((feature) => (
-                            <motion.div 
-                                key={feature.name} 
-                                className="relative pl-16"
-                                variants={itemVariants}
-                            >
-                                <dt className="text-lg font-semibold leading-7 text-gray-900">
-                                    <div className={`absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-full me-4 work-sans text-color-black ${feature.bg}`}>
-                                        <h1 className="text-white text-center text-2xl">{feature.icon}</h1>
-                                    </div>
-                                    {feature.name}
-                                </dt>
-                                <dd className="mt-2 text-base leading-7 text-gray-600">{feature.description}</dd>
-                            </motion.div>
+                            <FeatureItem key={feature.name} feature={feature} />
                         ))}
                     </dl>
                 </motion.div>

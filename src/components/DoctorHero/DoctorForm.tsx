@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { authHeader } from "@/utils";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 const DoctorForm = ({ existingUser }) => {
   const [initialValues, setInitialValues] = useState(null);
@@ -35,7 +35,10 @@ const DoctorForm = ({ existingUser }) => {
         specialization: existingUser.specialization || "",
         availability: existingUser.availability || "",
       });
-      setPreviewImage({ file: existingUser.profilePicture, initialStatus: true });
+      setPreviewImage({
+        file: existingUser.profilePicture,
+        initialStatus: true,
+      });
     } else {
       setInitialValues({
         name: "",
@@ -90,7 +93,11 @@ const DoctorForm = ({ existingUser }) => {
       if (isUpdate) {
         const response = await axios.put(
           `https://room-booking-and-management-system.vercel.app/api/users/${existingUser._id}`,
-          { ...values, profilePicture: values.profilePicture || existingUser.profilePicture },
+          {
+            ...values,
+            profilePicture:
+              values.profilePicture || existingUser.profilePicture,
+          },
           { headers: authHeader(true) }
         );
 
@@ -155,15 +162,37 @@ const DoctorForm = ({ existingUser }) => {
       {({ setFieldValue }) => (
         <Form className="flex flex-col space-y-4 w-full font-work-sans">
           <Field name="name" type="text" placeholder="Name" className="input" />
-          <ErrorMessage name="name" component="div" className="text-red-600 text-sm" />
+          <ErrorMessage
+            name="name"
+            component="div"
+            className="text-red-600 text-sm"
+          />
 
-          <Field name="email" type="email" placeholder="Email" className="input" />
-          <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
+          <Field
+            name="email"
+            type="email"
+            placeholder="Email"
+            className="input"
+          />
+          <ErrorMessage
+            name="email"
+            component="div"
+            className="text-red-600 text-sm"
+          />
 
           {!isUpdate && (
             <>
-              <Field name="password" type="password" placeholder="Password" className="input" />
-              <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                className="input"
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-600 text-sm"
+              />
             </>
           )}
 
@@ -171,14 +200,36 @@ const DoctorForm = ({ existingUser }) => {
             <option value="">Select Role</option>
             <option value="doctor">Doctor</option>
           </Field>
-          <ErrorMessage name="role" component="div" className="text-red-600 text-sm" />
+          <ErrorMessage
+            name="role"
+            component="div"
+            className="text-red-600 text-sm"
+          />
 
           <div>
-            <Field name="contactInfo.phone" type="text" placeholder="Phone" className="input" />
-            <ErrorMessage name="contactInfo.phone" component="div" className="text-red-600 text-sm" />
+            <Field
+              name="contactInfo.phone"
+              type="text"
+              placeholder="Phone"
+              className="input"
+            />
+            <ErrorMessage
+              name="contactInfo.phone"
+              component="div"
+              className="text-red-600 text-sm"
+            />
 
-            <Field name="contactInfo.address" type="text" placeholder="Address" className="input ms-4" />
-            <ErrorMessage name="contactInfo.address" component="div" className="text-red-600 text-sm" />
+            <Field
+              name="contactInfo.address"
+              type="text"
+              placeholder="Address"
+              className="input ms-4"
+            />
+            <ErrorMessage
+              name="contactInfo.address"
+              component="div"
+              className="text-red-600 text-sm"
+            />
           </div>
 
           <Field
@@ -187,7 +238,11 @@ const DoctorForm = ({ existingUser }) => {
             placeholder="Specialization"
             className="input"
           />
-          <ErrorMessage name="specialization" component="div" className="text-red-600 text-sm" />
+          <ErrorMessage
+            name="specialization"
+            component="div"
+            className="text-red-600 text-sm"
+          />
 
           <Field
             name="availability"
@@ -195,12 +250,20 @@ const DoctorForm = ({ existingUser }) => {
             placeholder="Availability (e.g., Monday-Friday, 12AM-9PM)"
             className="input"
           />
-          <ErrorMessage name="availability" component="div" className="text-red-600 text-sm" />
+          <ErrorMessage
+            name="availability"
+            component="div"
+            className="text-red-600 text-sm"
+          />
 
           <div>
             {previewImage.file && (
               <img
-                src={previewImage.initialStatus ? previewImage.file : previewImage.file}
+                src={
+                  previewImage.initialStatus
+                    ? previewImage.file
+                    : previewImage.file
+                }
                 alt="Preview"
                 className="w-full max-w-md"
               />
@@ -212,7 +275,11 @@ const DoctorForm = ({ existingUser }) => {
               onChange={(event) => handlePictureChange(event, setFieldValue)}
               className="file-input"
             />
-            <ErrorMessage name="profilePicture" component="div" className="text-red-600 text-sm" />
+            <ErrorMessage
+              name="profilePicture"
+              component="div"
+              className="text-red-600 text-sm"
+            />
           </div>
 
           <button type="submit" className="btn btn-active">

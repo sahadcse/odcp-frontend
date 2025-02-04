@@ -71,7 +71,7 @@ export const ServiceCardCarousel = () => {
         >
             {services.map((service, index) => (
                 <SwiperSlide key={index}>
-                    <div className="card bg-base-100 shadow-xl mx-auto max-w-sm">
+                    <div className="rounded-xl bg-base-100 mx-auto max-w-sm">
                         <figure className="px-5 pt-5">
                             <Image
                                 src={service.image}

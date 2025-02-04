@@ -42,24 +42,30 @@ const Testimonial = () => {
     ];
 
     return (
-        <div className="" >
-            <div className="px-4 lg:px-64 py-24" style={{ backgroundColor: "#ffffff9c" }}>
-                <div className="text-center">
-                    <p className="py-4 text-xl font-dm-sans font-bold text-color-primary leading-tight">
-                        | Testimonials
+        <div className="relative overflow-hidden bg-gradient-to-b from-white to-gray-400">
+            {/* Decorative elements */}
+            {/* <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-8 left-20 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div> */}
+
+            <div className="relative px-4 lg:px-56 py-24">
+                <div className="text-center space-y-6">
+                    <p className="inline-block py-2 px-4 rounded-full bg-blue-50 text-xl font-dm-sans font-bold text-blue-600">
+                        Testimonials
                     </p>
-                    <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
-                        What Our Client Says
+                    <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-gray-800 leading-tight">
+                        What Our <span className="text-blue-600">Clients</span> Say
                     </h1>
+                    <p className="max-w-2xl mx-auto text-gray-600 text-lg">
+                        Discover why our patients trust us with their healthcare needs
+                    </p>
                 </div>
 
-                <div className="my-12">
+                <div className="my-16">
                     <TestimonialCardCarousel data={testimonials} />
                 </div>
             </div>
-        </div >
-
-
+        </div>
     )
 }
 

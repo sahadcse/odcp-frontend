@@ -12,18 +12,23 @@ import WorkingProcess from "@/components/WorkingProcess";
 
 export default function Home() {
   return (
-    <div>
-      <Navbar />
-      <Hero />
-      <AboutUs />
-      <Service />
-      <FAQ />
-      <WorkingProcess />
-      <Appointment />
-      <EmergencyContact />
-      <Doctors />
-      <Testimonial />
-      <Footer />
+    <div className="font-dm-sans">
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Navbar />
+      </div>
+      <div className="pt-12">
+        {/* Add padding to avoid content being hidden behind the fixed navbar */}
+        <Hero />
+        <AboutUs />
+        <Service />
+        <FAQ />
+        <WorkingProcess />
+        <Appointment />
+        <EmergencyContact />
+        <Doctors />
+        <Testimonial />
+        <Footer />
+      </div>
     </div>
   );
 }

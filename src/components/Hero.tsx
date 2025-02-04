@@ -8,9 +8,9 @@ import Link from "next/link"
 const Hero = () => {
 
   return (
-    <div className="bg-[url('../images/banner_bg.jpg')] bg-cover bg-center sm:pt-16 sm:pb-20">
+    <div className="bg-[url('../images/banner_bg.jpg')]  bg-cover bg-center py-12 lg:py-24">
       <motion.div
-        className="flex flex-col-reverse lg:flex-row-reverse items-center justify-between min-h-screen px-4 sm:px-8 lg:px-48 space-y-6 lg:space-y-0 lg:space-x-12"
+        className="max-w-[80%] grid grid-cols-1 lg:grid-cols-2 gap-4 mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -20,28 +20,29 @@ const Hero = () => {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="w-full lg:w-1/2 flex justify-center lg:justify-end"
+          className=""
         >
-          <div className="w-11/12 sm:w-9/12 lg:w-auto">
-            <Image src={BannerImg} className="w-full" alt="Banner Image" priority />
+          <div className="">
+            <Image src={BannerImg} className="w-96 h-auto" alt="Banner Image" priority />
           </div>
         </motion.div>
 
         {/* Text Section */}
         <motion.div
-          className="w-full lg:w-1/2 text-center lg:text-left px-4"
+          className=""
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
+          
           <p className="py-4 text-lg sm:text-xl font-dm-sans font-bold text-color-secondary leading-tight">
-            | Welcome to Online Doctor
+          Welcome to Online Doctor <span className="">Consultation</span> Platform -ODCP
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-work-sans text-color-black leading-tight">
-            Complete Health Solution Online Doctor
+          <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold font-work-sans text-color-black leading-tight">
+            Your Health Is Our Priority
           </h1>
-          <p className="py-4 text-sm sm:text-lg lg:text-xl font-dm-sans leading-relaxed">
-            We are dedicated to providing the best care for your well-being. At Online Doctor, we ensure you receive the attention and support you deserve on your journey to better health.
+          <p className="py-4 text-sm sm:text-lg lg:text-xl font-dm-sans leading-relaxed text-justify">
+            Get the best medical consultation from the comfort of your home. Our team of experienced doctors are always ready to help you. 'We Care For You' is not just a slogan, it's our promise to you.
           </p>
           <div className="flex justify-center lg:justify-start">
             <Link href="/doctor"><motion.button
@@ -49,7 +50,7 @@ const Hero = () => {
               whileTap={{ scale: 0.9 }}
               className="btn rounded-full bg-color-primary text-color-white text-sm sm:text-base mt-4 px-6 py-2"
             >
-              Meet A Doctor
+              Consult Now
             </motion.button></Link>
           </div>
         </motion.div>
