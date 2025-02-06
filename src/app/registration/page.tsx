@@ -19,20 +19,20 @@ const RegistrationPage = () => {
     <>
       <Navbar />
       <div className="container mx-auto">
-        <div className="hero min-h-screen ">
+        <div className="hero min-h-screen">
           <div className="hero-content flex-col w-full">
             <div className="text-center">
               <h1 className="text-2xl mt-3 font-bold">Registration</h1>
             </div>
-            <div className="card w-3/5 border shadow-2xl bg-base-100">
-              <div className="card-body">
+            <div className="card w-full md:w-4/5 lg:w-3/5 border shadow-2xl bg-base-100">
+              <div className="card-body p-4 md:p-8">
                 {error && <p className="text-red-500 text-sm">{error}</p>}
-                <div className="form-control flex flex-row">
-                  <label className="label mr-4">
+                <div className="form-control flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
+                  <label className="label">
                     <span className="label-text text-lg">I am a</span>
                   </label>
                   <select
-                    className="select select-bordered text-lg"
+                    className="select select-bordered text-lg w-full md:w-auto"
                     value={role}
                     onChange={(e) =>
                       setRole(e.target.value as keyof typeof roleRedirects)
@@ -52,12 +52,12 @@ const RegistrationPage = () => {
                     <PatientRegistrationForm />
                   ) : null}
                 </div>
-                <button>
+                <div className="text-center md:text-left">
                   Already have an account?{" "}
                   <Link href="/login" className="text-secondary">
                     Login
                   </Link>
-                </button>
+                </div>
               </div>
             </div>
           </div>

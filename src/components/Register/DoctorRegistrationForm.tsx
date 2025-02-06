@@ -229,12 +229,12 @@ const DoctorRegistrationForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 w-7/10 mx-auto">
-            <div className="flex flex-wrap space-x-4">
+        <form onSubmit={handleSubmit} className="space-y-4 w-full md:w-7/10 p-4 mx-auto">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Full Name', 'full_name')}
                 {renderInputField('Email', 'email', 'email')}
             </div>
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 <div className="form-control flex-1">
                     <label className="label">
                         <span className="label-text">Password</span>
@@ -259,11 +259,11 @@ const DoctorRegistrationForm = () => {
                     {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                 </div>
             </div>
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Phone Number', 'phone_number')}
                 {renderInputField('Date of Birth', 'date_of_birth', 'date')}
             </div>
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderSelectField('Gender', 'gender', [
                     { value: 'male', label: 'Male' },
                     { value: 'female', label: 'Female' },
@@ -272,11 +272,11 @@ const DoctorRegistrationForm = () => {
                 {renderTextAreaField('Bio', 'bio')}
             </div>
             {renderInputField('Address', 'address')}
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Street', 'street')}
                 {renderInputField('City', 'city')}
             </div>
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('State', 'state')}
                 {renderInputField('Postal Code', 'postal_code')}
             </div>
@@ -291,7 +291,7 @@ const DoctorRegistrationForm = () => {
                 <label className="label">
                     <span className="label-text">Qualifications</span>
                 </label>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between mb-3 flex-col gap-2 md:flex-row">
                     <input
                         type="text"
                         name="qualifications"
@@ -319,7 +319,7 @@ const DoctorRegistrationForm = () => {
                 <label className="label">
                     <span className="label-text">Availability</span>
                 </label>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between mb-3 flex-col gap-2 md:flex-row">
                     <input
                         type="text"
                         name="availability.day"
@@ -356,7 +356,7 @@ const DoctorRegistrationForm = () => {
                 <label className="label">
                     <span className="label-text">Languages Spoken</span>
                 </label>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between mb-3 flex-col gap-2 md:flex-row">
                     <input
                         type="text"
                         name="languages_spoken"
@@ -391,7 +391,7 @@ const DoctorRegistrationForm = () => {
                 <label className="label">
                     <span className="label-text">Hospital Affiliations</span>
                 </label>
-                <div className="grid gap-4 grid-cols-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input
                         type="text"
                         name="hospital_affiliations.name"
@@ -466,7 +466,7 @@ const DoctorRegistrationForm = () => {
                 <label className="label">
                     <span className="label-text">Awards and Recognitions</span>
                 </label>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between mb-3 flex-col gap-2 md:flex-row">
                     <input
                         type="text"
                         name="awards_and_recognitions"
@@ -497,11 +497,11 @@ const DoctorRegistrationForm = () => {
             </div>
 
 
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Twitter', 'social_links.twitter')}
                 {renderInputField('LinkedIn', 'social_links.linkedin')}
             </div>
-            <div className="flex flex-wrap space-x-4">
+            <div className="flex flex-col md:flex-row gap-4">
                 <div className="form-control flex-1">
                     <label className="cursor-pointer label">
                         <span className="label-text">Consent Form Signed</span>
@@ -517,7 +517,7 @@ const DoctorRegistrationForm = () => {
                     {errors.terms_accepted && <p className="text-red-500 text-sm">{errors.terms_accepted}</p>}
                 </div>
             </div>
-            <button type="submit" className="btn btn-success">Submit</button>
+            <button type="submit" className="btn btn-success w-full md:w-auto">Submit</button>
         </form>
     );
 };

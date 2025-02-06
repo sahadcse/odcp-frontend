@@ -195,11 +195,11 @@ const PatientRegistrationForm = () => {
   };
 
   return (
-    <div className="space-y-4 w-7/10 mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="p-4 w-full max-w-4xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name Section */}
-        <div className="flex space-x-4">
-          <div className="form-control flex-1">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+          <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Full Name</span>
             </label>
@@ -215,7 +215,7 @@ const PatientRegistrationForm = () => {
               <span className="text-red-500">{errors.full_name}</span>
             )}
           </div>
-          <div className="form-control flex-1">
+          <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
@@ -234,7 +234,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Password Section */}
-        <div className="flex space-x-4">
+        <div className="w-full">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Password</span>
@@ -263,7 +263,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Phone Number and Date of Birth Section */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Phone Number</span>
@@ -299,7 +299,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Gender and Blood Group Section */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Gender</span>
@@ -346,7 +346,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Height Section */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Height (Feet)</span>
@@ -382,7 +382,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Weight Section */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Weight</span>
@@ -418,8 +418,8 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Address Section */}
-        <h3 className="text-lg font-semibold">Address</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <h3 className="text-lg font-semibold mt-6">Address</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Street</span>
@@ -505,8 +505,8 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Emergency Contact Section */}
-        <h3 className="text-lg font-semibold">Emergency Contact</h3>
-        <div className="flex space-x-4">
+        <h3 className="text-lg font-semibold mt-6">Emergency Contact</h3>
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="label">
               <span className="label-text">Emergency Contact Name</span>
@@ -546,7 +546,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Emergency Contact Relationship Section */}
-        <div className="form-control flex-1">
+        <div className="form-control w-full md:w-1/2">
           <label className="label">
             <span className="label-text">Emergency Contact Relationship</span>
           </label>
@@ -566,7 +566,7 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Terms Accepted and Consent Form Signed Section */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div className="form-control flex-1">
             <label className="cursor-pointer label">
               <span className="label-text">Terms Accepted</span>
@@ -600,8 +600,8 @@ const PatientRegistrationForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="form-control">
-          <button type="submit" className="btn btn-primary w-full">
+        <div className="form-control mt-6">
+          <button type="submit" className="btn btn-primary w-full max-w-md mx-auto">
             Register
           </button>
         </div>
