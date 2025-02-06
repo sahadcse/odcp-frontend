@@ -35,7 +35,7 @@ const Footer = () => {
             title: "Contact Information",
             content: (
                 <div className="text-[#9CBDBD]">
-                    <p className="mt-2">Love Road, Section-2 Dhaka.</p>
+                    <p className="mt-2">Love Road, Section-2 Mirpur.</p>
                     <p>Dhaka, 1216</p>
                     <p className="mt-4">
                         Phone:{" "}

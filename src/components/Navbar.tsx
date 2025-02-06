@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import Logo from "../images/Logo (2).png";
 import useisAuthenticated from "../hooks/useIsAuthenticated";
@@ -12,6 +13,7 @@ import { logout } from "@/redux/slices/userSlice";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
   const isAuth = useisAuthenticated();
   const userData = useUserData();
   const dispatch = useDispatch();
@@ -47,7 +49,11 @@ const Navbar = () => {
       <Link
         key={item.name}
         href={item.href}
-        className="text-lg font-semibold leading-6 text-gray-900 hover:text-gray-600 border-b-2 md:border-none"
+        className={`text-lg font-semibold leading-6 px-3 py-2 rounded-lg transition-all duration-200 ${
+          pathname === item.href
+        ? "bg-color-primary text-white shadow-lg transform scale-105"
+        : "text-gray-900 hover:bg-gray-100 hover:text-color-primary"
+        }`}
       >
         {item.name}
       </Link>

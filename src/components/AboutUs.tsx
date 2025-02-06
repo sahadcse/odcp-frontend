@@ -22,7 +22,7 @@ const AboutUs = () => {
     );
     
     return (
-        <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
+        <div className="md:max-w-[80%] mx-auto px-4 py-8 sm:py-12 lg:py-16">
             <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 lg:gap-12"
                 initial={{ opacity: 0 }}
