@@ -71,14 +71,14 @@ const AppointmentsPage = () => {
 
   return (
     <PatientLayout>
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-4 sm:p-6">
         {/* Header */}
-        <h1 className="text-2xl font-bold mb-6 text-gray-900">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900">
           My Appointments
         </h1>
 
-        {/* Table Container */}
-        <div className="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
           <table className="min-w-full divide-y divide-gray-200">
             {/* Table Head */}
             <thead className="bg-gray-100">
@@ -161,6 +161,62 @@ const AppointmentsPage = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden space-y-4">
+          {appointments.map((appointment) => (
+            <div
+              key={appointment._id}
+              className="bg-white rounded-lg shadow p-4 border border-gray-200"
+            >
+              <div className="flex justify-between items-start mb-3">
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-gray-900">
+                    Doctor: {doctors[appointment._id]?.full_name || "N/A"}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <span>
+                      {new Date(appointment.appointment_date).toLocaleDateString()}
+                    </span>
+                    {new Date(appointment.appointment_date).toDateString() === new Date().toDateString() ? (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        Today
+                      </span>
+                    ) : new Date(appointment.appointment_date) < new Date() ? (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                        Past
+                      </span>
+                    ) : (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                        Incoming
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Time: {appointment.time_slot}
+                  </div>
+                </div>
+                <span
+                  className={`text-sm font-medium px-2.5 py-0.5 rounded ${
+                    appointment.status === "Pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : appointment.status === "Completed"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {appointment.status}
+                </span>
+              </div>
+              <button
+                className="w-full bg-blue-500 text-white text-sm px-4 py-2 rounded hover:bg-blue-600 transition"
+                onClick={() => viewAppointment(appointment._id)}
+              >
+                View Appointment
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </PatientLayout>

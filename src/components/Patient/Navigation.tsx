@@ -7,8 +7,12 @@ import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
 import CalendarIcon from "@heroicons/react/24/outline/CalendarIcon";
 import ClipboardIcon from "@heroicons/react/24/outline/ClipboardIcon";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
+import MenuIcon from "@heroicons/react/24/outline/Bars3Icon";
 import axios from "axios";
 import Cookies from "js-cookie";
+
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/slices/userSlice"; // Adjust the import path as necessary
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,6 +21,15 @@ const Navigation = () => {
   const [patient, setPatient] = useState<any>(null);
   const [isAppointmentsOpen, setAppointmentsOpen] = useState(false);
   const [isConsultationsOpen, setConsultationsOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    Cookies.remove("token"); // Remove the token cookie
+    Cookies.remove("patient"); // Remove the patient cookie
+    window.location.href = "/login"; // Redirect to login page
+  }
 
   const isActive = (path: string): boolean => pathname === path;
 
@@ -67,9 +80,10 @@ const Navigation = () => {
   }, [pathname]);
 
   return (
-    <div className="w-60 bg-gray-100 min-h-full">
-      <div className="p-4">
-        <div className="shadow-md rounded-lg">
+    <div className="w-full md:w-60 bg-gray-100 min-h-full">
+      <div className="hidden md:p-4  items-center md:block">
+        {/* Profile Card for Large Screen Start */}
+        <div className="shadow-md rounded-lg hidden md:block">
           <div className="flex flex-col items-center p-4">
             {patient?.profile_picture ? (
               <img
@@ -90,8 +104,34 @@ const Navigation = () => {
           </div>
         </div>
       </div>
+        {/* Profile Card for Large Screen End */}
 
-      <ul className="menu py-4 font-medium text-base">
+
+      {/* Small Device */}
+      <div className="py-1 px-2 md:hidden flex justify-between items-center">
+        <div className="flex items-center md:hidden">
+          <h1 className="text-xl font-semibold capitalize">
+            {(pathname ?? "").split("/")[2]?.replace(/-/g, " ")}
+          </h1>
+        </div>
+
+        {/* Log Out Button for small device */}
+        <button
+          className="md:hidden py-1 px-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 border border-red-600 text-red-600"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
+        <button
+          className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          onClick={() => setMenuOpen(!isMenuOpen)}
+        >
+          <MenuIcon className="h-6 w-6" />
+        </button>
+      </div>
+
+      <ul className={`menu py-4 font-medium text-base ${isMenuOpen ? "block" : "hidden"} md:block`}>
         {/* Dashboard */}
         <li className={isActive("/patient/dashboard") ? "bg-sky-200 rounded" : ""}>
           <Link href="/patient/dashboard" passHref>

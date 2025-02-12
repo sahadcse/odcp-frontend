@@ -108,16 +108,12 @@ const DoctorBookingPage = () => {
 
     const token = Cookies.get("token");
     axios
-      .post(
-        `${baseURL}/api/users/patient/appointments`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(`${baseURL}/api/users/patient/appointments`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         console.log("Appointment booked successfully:", response.data);
         localStorage.removeItem("selectedDoctor");
@@ -131,41 +127,41 @@ const DoctorBookingPage = () => {
 
   return (
     <PatientLayout>
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="flex justify-between items-center mb-8">
+      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           {/* Going Back Button */}
           <button
             onClick={() => router.back()}
-            className="mb-6 px-4 py-2 bg-gray-200 rounded-lg border border-black hover:text-white hover:bg-gray-700 transition-colors"
+            className="px-4 py-2 bg-gray-200 rounded-lg border border-black hover:text-white hover:bg-gray-700 transition-colors"
           >
             ← Back
           </button>
           {/* Booking Section */}
-          <div className="p-8">
+          <div className="w-full sm:w-auto">
             <button
               onClick={() => setShowBookingForm(true)}
-              className="py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+              className="w-full sm:w-auto py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
             >
               Book Appointment
             </button>
 
             {showBookingForm && (
-              <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-                <div className="bg-white p-6 rounded-lg relative w-2/4">
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 p-4">
+                <div className="bg-white p-4 md:p-6 rounded-lg relative w-full md:w-3/4 lg:w-2/4 max-h-[90vh] overflow-y-auto">
                   <button
                     onClick={() => setShowBookingForm(false)}
                     className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                   >
                     ✕
                   </button>
-                  <h2 className="text-2xl font-semibold mb-6">
+                  <h2 className="text-xl md:text-2xl font-semibold mb-6">
                     Appointment Details
                   </h2>
-                  <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+                  <div className="max-w-lg mx-auto bg-white rounded-lg">
                     <div className="space-y-4">
-                      <div className="flex gap-4 justify-between items-center">
+                      <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
                         {/* Consultation Type */}
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Consultation Type
                           </label>
@@ -185,7 +181,7 @@ const DoctorBookingPage = () => {
                           </select>
                         </div>
                         {/* Files Upload */}
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Files Upload
                           </label>
@@ -199,9 +195,9 @@ const DoctorBookingPage = () => {
                         </div>
                       </div>
 
-                      <div className="flex justify-between gap-4">
+                      <div className="flex flex-col md:flex-row gap-4 justify-between">
                         {/* Appointment Date */}
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Appointment Date
                           </label>
@@ -227,7 +223,7 @@ const DoctorBookingPage = () => {
                         </div>
 
                         {/* Time Slot */}
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Time Slot
                           </label>
@@ -283,23 +279,23 @@ const DoctorBookingPage = () => {
 
         <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg">
           {/* Header Section */}
-          <div className="p-8 border-b border-gray-200">
-            <div className="flex items-start gap-8">
+          <div className="p-4 md:p-8 border-b border-gray-200">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8">
               <img
                 src={doctor.profile_picture_url}
                 alt={`${doctor.full_name}'s profile`}
-                className="w-48 h-48 rounded-lg object-cover"
+                className="w-32 h-32 md:w-48 md:h-48 rounded-lg object-cover"
               />
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              <div className="text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                   {doctor.full_name}
                 </h1>
-                <p className="text-lg text-gray-600 mb-2">
+                <p className="text-md md:text-lg text-gray-600 mb-2">
                   <span className="font-semibold">Specialization:</span>{" "}
                   {doctor.specialization}
                 </p>
                 <p className="text-gray-600 mb-4">{doctor.bio}</p>
-                <div className="flex gap-6">
+                <div className="flex flex-col md:flex-row gap-3 md:gap-6">
                   <p className="text-gray-800">
                     <span className="font-semibold">Consultation Fee:</span>{" "}
                     <span className="text-gray-900">
@@ -325,9 +321,9 @@ const DoctorBookingPage = () => {
           </div>
 
           {/* Details Section */}
-          <div className="p-8 grid grid-cols-2 gap-8">
+          <div className="p-4 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-lg md:text-xl font-semibold mb-4">
                 Professional Details
               </h2>
               <div className="space-y-4">
@@ -349,7 +345,9 @@ const DoctorBookingPage = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-4">Availability</h2>
+              <h2 className="text-lg md:text-xl font-semibold mb-4">
+                Availability
+              </h2>
               <div className="grid grid-cols-1 gap-2">
                 {doctor.availability.map(
                   (slot: {
@@ -361,12 +359,21 @@ const DoctorBookingPage = () => {
                       key={slot._id}
                       className="bg-gray-50 p-3 rounded-lg flex justify-between"
                     >
-                      <span className="font-medium text-gray-900">
+                      <div className="font-medium text-gray-900">
                         {slot.day}:
-                      </span>
-                      <span className="text-gray-600">
-                        {slot.time_slots.join(", ")}
-                      </span>
+                      </div>
+                      <div className="flex flex-wrap flex-col md:flex-row gap-1">
+                        {slot.time_slots
+                          .filter((time) => time.trim() !== "")
+                          .map((time) => (
+                            <span
+                              key={time}
+                              className="bg-gray-200 px-2 py-1 rounded-md text-sm"
+                            >
+                              {time}
+                            </span>
+                          ))}
+                      </div>
                     </div>
                   )
                 )}
@@ -375,11 +382,11 @@ const DoctorBookingPage = () => {
 
             {doctor.hospital_affiliations &&
               doctor.hospital_affiliations.length > 0 && (
-                <div className="col-span-2">
-                  <h2 className="text-xl font-semibold mb-4">
+                <div className="col-span-1 md:col-span-2">
+                  <h2 className="text-lg md:text-xl font-semibold mb-4">
                     Hospital Affiliations
                   </h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {doctor.hospital_affiliations.map((hospital: any) => (
                       <div
                         key={hospital._id}

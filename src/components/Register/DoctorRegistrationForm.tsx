@@ -22,17 +22,18 @@ interface FormData {
     date_of_birth: string;
     gender: string;
     bio: string;
-    address: string;
-    street: string;
-    city: string;
-    state: string;
-    postal_code: string;
-    country: string;
+    address: {
+        street: string;
+        city: string;
+        state: string;
+        postal_code: string;
+        country: string;
+    };
     specialization: string;
     qualifications: string[];
-    experience_years: string;
+    experience_years: number;
     license_number: string;
-    consultation_fee: string;
+    consultation_fee: number;
     availability: { day: string; time_slots: string }[];
     languages_spoken: string[];
     hospital_affiliations: { name: string; address: { street: string; city: string; state: string; postal_code: string; country: string } }[];
@@ -54,16 +55,17 @@ const DoctorRegistrationForm = () => {
         date_of_birth: '',
         gender: '',
         bio: '',
-        address: '',
-        street: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: '',
+        address: {
+            street: '',
+            city: '',
+            state: '',
+            postal_code: '',
+            country: ''
+        },
         specialization: '',
-        experience_years: '',
+        experience_years: 0,
         license_number: '',
-        consultation_fee: '',
+        consultation_fee: 0,
         social_links: {
             twitter: '',
             linkedin: ''
@@ -84,6 +86,7 @@ const DoctorRegistrationForm = () => {
     const [hospitalAffiliations, setHospitalAffiliations] = useState<{ name: string; address: { street: string; city: string; state: string; postal_code: string; country: string } }[]>([{ name: '', address: { street: '', city: '', state: '', postal_code: '', country: '' } }]);
     const [awardsAndRecognitions, setAwardsAndRecognitions] = useState<string[]>(['']);
     const [showPassword, setShowPassword] = useState(false);
+
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const dispatch = useDispatch();
     const router = useRouter();
@@ -100,6 +103,9 @@ const DoctorRegistrationForm = () => {
         } else if (name.includes('social_links')) {
             const socialName = name.split('.')[1];
             setFormData({ ...formData, social_links: { ...formData.social_links, [socialName]: value } });
+        } else if(name.includes('address')){
+            const addressName = name.split('.')[1];
+            setFormData({ ...formData, address: { ...formData.address, [addressName]: value } });
         } else {
             setFormData({ ...formData, [name]: value });
         }
@@ -230,10 +236,13 @@ const DoctorRegistrationForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 w-full md:w-7/10 p-4 mx-auto">
+            {/* Full Name and Email */}
             <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Full Name', 'full_name')}
                 {renderInputField('Email', 'email', 'email')}
             </div>
+
+            {/* Password */}
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="form-control flex-1">
                     <label className="label">
@@ -259,10 +268,13 @@ const DoctorRegistrationForm = () => {
                     {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                 </div>
             </div>
+                
+            {/* Phone Number and Date of Birth */}
             <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Phone Number', 'phone_number')}
                 {renderInputField('Date of Birth', 'date_of_birth', 'date')}
             </div>
+            {/* Gender and Bio */}
             <div className="flex flex-col md:flex-row gap-4">
                 {renderSelectField('Gender', 'gender', [
                     { value: 'male', label: 'Male' },
@@ -271,16 +283,17 @@ const DoctorRegistrationForm = () => {
                 ])}
                 {renderTextAreaField('Bio', 'bio')}
             </div>
-            {renderInputField('Address', 'address')}
-            <div className="flex flex-col md:flex-row gap-4">
-                {renderInputField('Street', 'street')}
-                {renderInputField('City', 'city')}
+                
+            {/* Address */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {renderInputField('Street', 'address.street')}
+                {renderInputField('City', 'address.city')}
+                {renderInputField('State', 'address.state')}
+                {renderInputField('Postal Code', 'address.postal_code')}
+                {renderInputField('Country', 'address.country')}
             </div>
-            <div className="flex flex-col md:flex-row gap-4">
-                {renderInputField('State', 'state')}
-                {renderInputField('Postal Code', 'postal_code')}
-            </div>
-            {renderInputField('Country', 'country')}
+                
+            {/* Specialization, Experience, License Number, and Consultation Fee */}
             {renderInputField('Specialization', 'specialization')}
             {renderInputField('Years of Experience', 'experience_years')}
             {renderInputField('License Number', 'license_number')}
@@ -497,10 +510,13 @@ const DoctorRegistrationForm = () => {
             </div>
 
 
+            {/* Socal Links */}
             <div className="flex flex-col md:flex-row gap-4">
                 {renderInputField('Twitter', 'social_links.twitter')}
                 {renderInputField('LinkedIn', 'social_links.linkedin')}
             </div>
+
+            {/* Consent Form Signed and Terms Accepted */}
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="form-control flex-1">
                     <label className="cursor-pointer label">

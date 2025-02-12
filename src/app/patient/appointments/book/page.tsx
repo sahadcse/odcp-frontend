@@ -100,24 +100,24 @@ const AppointmentBooking = () => {
 
   return (
     <PatientLayout>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Appointment Booking</h1>
-        <div className="flex mb-4 justify-between">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4">Appointment Booking</h1>
+        <div className="flex flex-col sm:flex-row mb-4 gap-4">
           <input
             type="text"
             placeholder="Search by name, specialization, or fee"
             value={searchTerm}
             onChange={handleSearch}
-            className="w-[50%] p-2 border border-gray-300 rounded mr-2"
+            className="w-full sm:w-[60%] p-2 border border-gray-300 rounded"
           />
-          <div className="flex items-center">
-            <div className="">
+          <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+            <div className="whitespace-nowrap">
               <span className="mr-2">Filter:</span>
             </div>
             <select
               value={selectedSpecialization}
               onChange={handleSpecializationChange}
-              className="p-2 border border-gray-300 rounded"
+              className="w-full sm:w-auto p-2 border border-gray-300 rounded"
             >
               <option value="">All Specializations</option>
               {specializations.map((spec) => (
@@ -129,30 +129,30 @@ const AppointmentBooking = () => {
           </div>
         </div>
         {filteredDoctors.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredDoctors.map((doctor) => (
               <div
                 key={doctor.doctor_id}
-                className="doctor-card p-4 border border-red-200 rounded shadow flex flex-col justify-between"
+                className="doctor-card p-3 sm:p-4 border border-red-200 rounded shadow flex flex-col justify-between"
               >
                 <img
                   src={doctor.profile_picture_url}
                   alt={doctor.full_name}
-                  className="doctor-image w-32 h-32 object-cover rounded-full mx-auto mb-4 bg-gray-500 text-center "
+                  className="doctor-image w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full mx-auto mb-3 sm:mb-4 bg-gray-500"
                   onError={handleImageError}
                 />
-                <div className="">
-                  <h2 className="text-xl font-semibold mb-2">
+                <div className="space-y-1 sm:space-y-2">
+                  <h2 className="text-lg sm:text-xl font-semibold">
                     {doctor.full_name}
                   </h2>
-                  <p className="text-gray-700 mb-1">
+                  <p className="text-sm sm:text-base text-gray-700">
                     Specialization: {doctor.specialization}
                   </p>
-                  <p className="text-gray-700 mb-1">
+                  <p className="text-sm sm:text-base text-gray-700">
                     Consultation Fee: ${doctor.consultation_fee}
                   </p>
-                  <p className="text-gray-700 mb-1">
-                    Languages Spoken: {doctor.languages_spoken.join(", ")}
+                  <p className="text-sm sm:text-base text-gray-700">
+                    Languages: {doctor.languages_spoken.join(", ")}
                   </p>
                 </div>
                 <button
@@ -160,7 +160,7 @@ const AppointmentBooking = () => {
                     localStorage.setItem("selectedDoctor", JSON.stringify(doctor));
                     router.push(`/patient/appointments/book/confirm`);
                   }}
-                  className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                  className="mt-3 sm:mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 text-sm sm:text-base"
                 >
                   Book Appointment
                 </button>
@@ -169,7 +169,7 @@ const AppointmentBooking = () => {
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-center text-red-500 text-xl">
+            <p className="text-center text-red-500 text-lg sm:text-xl">
               Sorry! No Doctors Available.
             </p>
           </div>

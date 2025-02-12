@@ -151,37 +151,38 @@ const AppointmentPage = () => {
 
   return (
     <PatientLayout>
-      <div className=" mx-auto p-6">
+      <div className="mx-auto p-4 sm:p-6 max-w-7xl">
         {/* Header */}
-        <h1 className="text-2xl font-bold mb-6 text-gray-900">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900">
           Appointment Details
         </h1>
 
         {/* Actions */}
-        <div className="flex justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
           {/* Go Back */}
           <button
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 w-full sm:w-auto"
             onClick={() => router.push("/patient/appointments/view")}
           >
             Go Back
           </button>
 
           {/* Cancel Appointment */}
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full sm:w-auto"
             onClick={cancelAppointment}
-          >
+            hidden={appointment.status === "Cancelled"}
+            >
             Cancel Appointment
-          </button>
+            </button>
         </div>
 
         {/* Appointment Card */}
         <div className="flex justify-center">
-          <div className="bg-white p-6 rounded shadow-lg border border-gray-200 w-[75%]">
-            <div className="flex">
+          <div className="bg-white p-4 sm:p-6 rounded shadow-lg border border-gray-200 w-full">
+            <div className="flex flex-col md:flex-row gap-6">
               {/* Appointment Information */}
-              <div className="space-y-2 text-gray-800 w-1/2">
+              <div className="space-y-2 text-gray-800 w-full md:w-1/2">
                 <p>
                   <span className="font-medium">Date:</span>{" "}
                   {new Date(appointment.appointment_date).toLocaleDateString()}
@@ -209,36 +210,40 @@ const AppointmentPage = () => {
               </div>
 
               {/* Doctor Information */}
-              <div className="">
-                <h2 className="text-lg font-bold text-gray-900">
+              <div className="w-full md:w-1/2">
+                <h2 className="text-lg font-bold text-gray-900 mb-3">
                   Doctor Details
                 </h2>
-                {doctor?.profile_picture_url ? (
-                  <img
-                    src={doctor.profile_picture_url}
-                    alt="Doctor"
-                    className="w-24 h-24 rounded-lg mt-2 mb-1"
-                  />
-                ) : (
-                  <div className="w-24 h-24 rounded-full bg-gray-300 mt-2 mb-1 flex items-center justify-center">
-                    <span className="text-gray-500">No Image</span>
+                <div className="flex items-center gap-4 mb-3">
+                  {doctor?.profile_picture_url ? (
+                    <img
+                      src={doctor.profile_picture_url}
+                      alt="Doctor"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-300 flex items-center justify-center">
+                      <span className="text-gray-500 text-sm">No Image</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-gray-800 font-bold">
+                      Name: {doctor?.full_name || "N/A"}
+                    </p>
+                    <p className="text-gray-800">
+                      Specialization: {doctor?.specialization || "N/A"}
+                    </p>
                   </div>
-                )}
-                <p className="text-gray-800 font-bold">
-                  Name: {doctor?.full_name || "N/A"}
-                </p>
-                <p className="text-gray-800">
-                  Specialization: {doctor?.specialization || "N/A"}
-                </p>
+                </div>
               </div>
             </div>
 
             {/* Reschedule Section */}
             {appointment.status === "Pending" && (
-              <div className="mt-6 bg-gray-50 p-4 rounded border border-gray-200">
-                <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6">
+              <div className="mt-6 bg-gray-50 p-3 sm:p-4 rounded border border-gray-200">
+                <div className="flex flex-col gap-4">
                   {/* Appointment Date */}
-                  <div className="flex-1">
+                  <div className="w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Appointment Date
                     </label>
@@ -261,7 +266,7 @@ const AppointmentPage = () => {
                   </div>
 
                   {/* Time Slot */}
-                  <div className="flex-1">
+                  <div className="w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Time Slot
                     </label>
@@ -284,15 +289,15 @@ const AppointmentPage = () => {
                       )}
                     </select>
                   </div>
-                </div>
 
-                {/* Reschedule Button */}
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600"
-                  onClick={rescheduleAppointment}
-                >
-                  Reschedule Appointment
-                </button>
+                  {/* Reschedule Button */}
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full sm:w-auto"
+                    onClick={rescheduleAppointment}
+                  >
+                    Reschedule Appointment
+                  </button>
+                </div>
               </div>
             )}
           </div>

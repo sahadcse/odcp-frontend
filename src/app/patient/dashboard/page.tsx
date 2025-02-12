@@ -64,22 +64,22 @@ const PatientDashboard = () => {
           Welcome to the Patient Dashboard
         </h2>
         {error && <p className="text-red-500">{error}</p>}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-          <div className="p-4 bg-white shadow rounded">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+          <div className="p-4 bg-white shadow rounded flex justify-between items-center">
             <h3 className="text-xl font-semibold">Appointments</h3>
             <p className="text-2xl">{appointments.length}</p>
           </div>
-          <div className="p-4 bg-white shadow rounded">
+          <div className="p-4 bg-white shadow rounded flex justify-between items-center">
             <h3 className="text-xl font-semibold">Consultations</h3>
             <p className="text-2xl">{consultations.length}</p>
           </div>
-          <div className="p-4 bg-white shadow rounded">
+          <div className="p-4 bg-white shadow rounded flex justify-between items-center">
             <h3 className="text-xl font-semibold">Doctors</h3>
             <p className="text-2xl">{doctors.length}</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="p-4 bg-white shadow rounded">
             <h3 className="text-xl font-semibold mb-3">Health Tips</h3>
             <ul className="space-y-2">
@@ -100,22 +100,22 @@ const PatientDashboard = () => {
               <li className="border-b pb-2">Stay home if feeling unwell</li>
             </ul>
           </div>
-        <div className="p-4 bg-white shadow rounded mt-4 md:col-span-2">
-        <h3 className="text-xl font-semibold mb-3">Mental Health Awareness</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ul className="space-y-2">
-          <li className="border-b pb-2">Practice mindfulness and meditation</li>
-          <li className="border-b pb-2">Maintain work-life balance</li>
-          <li className="border-b pb-2">Stay connected with loved ones</li>
-          </ul>
-          <ul className="space-y-2">
-          <li className="border-b pb-2">Take regular breaks during work</li>
-          <li className="border-b pb-2">Seek professional help when needed</li>
-          <li className="border-b pb-2">Exercise regularly to boost mood</li>
-          </ul>
+          <div className="p-4 bg-white shadow rounded mt-4 lg:col-span-2">
+            <h3 className="text-xl font-semibold mb-3">Mental Health Awareness</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ul className="space-y-2">
+                <li className="border-b pb-2">Practice mindfulness and meditation</li>
+                <li className="border-b pb-2">Maintain work-life balance</li>
+                <li className="border-b pb-2">Stay connected with loved ones</li>
+              </ul>
+              <ul className="space-y-2">
+                <li className="border-b pb-2">Take regular breaks during work</li>
+                <li className="border-b pb-2">Seek professional help when needed</li>
+                <li className="border-b pb-2">Exercise regularly to boost mood</li>
+              </ul>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
       </PatientLayout>
     </>
   );

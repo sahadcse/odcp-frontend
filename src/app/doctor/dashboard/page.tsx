@@ -65,32 +65,46 @@ const DoctorDashboard = () => {
           headers: authHeader(),
         });
 
+        console.log("a",appointmentsApi);
+        console.log("b",consultationsApi);
+
+
         if (!appointmentsApi.ok || !consultationsApi.ok) {
-          throw new Error("Failed to fetch data");
+          console.log("An error occurred while fetching appointments");
         }
 
         const appointmentsData = await appointmentsApi.json();
-        const consultationsData = await consultationsApi.json();
+        const consultationsData = await consultationsApi.json() || [];
 
         // Filter today's appointments
         const todayDate = new Date().toDateString();
-        const filterData = appointmentsData.filter((appointment) => {
+        interface Appointment {
+          appointment: {
+            appointment_date: string;
+          };
+        }
+
+        const filterData = appointmentsData.filter((appointment: Appointment) => {
           const appointmentDate = new Date(appointment.appointment.appointment_date).toDateString();
           return todayDate === appointmentDate;
         });
 
         // Filter today's consultations
-        const filterConsultations = consultationsData.filter((consultation) => {
+        const filterConsultations = Array.isArray(consultationsData) ? consultationsData.filter((consultation: { consultation_date: string }) => {
           const consultationDate = new Date(consultation.consultation_date).toDateString();
           return todayDate === consultationDate;
-        });
+        }) : [];
 
         // Update state
         setTodayAppointments(filterData);
         setPatientsData({ total: consultationsData.length, today: filterConsultations.length });
 
       } catch (err) {
-        alert(err.message || "An error occurred while fetching appointments");
+        if (err instanceof Error) {
+          alert(err.message || "An error occurred while fetching appointments");
+        } else {
+          alert("An error occurred while fetching appointments");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -110,7 +124,7 @@ const DoctorDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <TotalCard
             cardTitle="Total Patients"
-            cardNumber={patientsData.total}
+            cardNumber={patientsData.total || 0}
             cardDate="Till Today"
             cardImgUrl={TotalPatient}
           />
