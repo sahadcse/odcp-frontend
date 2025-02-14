@@ -113,8 +113,18 @@ const PatientProfile = () => {
   // Loading Screen
   if (!patient) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-3xl text-red-800 text-center">Loading...</div>
+      // <div className="flex items-center justify-center h-screen">
+      //   <div className="text-3xl text-red-800 text-center">Loading...</div>
+      // </div>
+
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
+        <div className="relative w-24 h-24">
+          <div className="absolute top-0 left-0 w-full h-full border-8 border-gray-200 rounded-full"></div>
+          <div className="absolute top-0 left-0 w-full h-full border-8 border-blue-500 rounded-full animate-spin border-t-transparent"></div>
+        </div>
+        <div className="mt-4 text-xl font-semibold text-gray-700">
+          Loading...
+        </div>
       </div>
     );
   }
@@ -291,242 +301,261 @@ const PatientProfile = () => {
   return (
     <PatientLayout>
       <div className="container mx-auto px-2 sm:px-4 mb-4 max-w-7xl">
-        {/* Top Buttons Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-          <button
+
+        {/* Profile Details */}
+        <div>
+          {/* Top Buttons Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+            {/* <button
             onClick={() => router.back()}
             className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
           >
             Go Back
-          </button>
+          </button> */}
 
-          <button
-            onClick={() => setShowUpdateForm(true)}
-            className="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-          >
-            Update Profile
-          </button>
+            <button
+              onClick={() => setShowUpdateForm(true)}
+              className="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            >
+              Update Profile
+            </button>
 
-          <button
-            onClick={() => setShowDeleteReasonForm(true)}
-            className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-          >
-            Delete Profile
-          </button>
-        </div>
+            <button
+              onClick={() => setShowDeleteReasonForm(true)}
+              className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            >
+              Profile Delete Request
+            </button>
+          </div>
 
-        {/* Profile Details */}
-        <div className="bg-gray-100 p-3 sm:p-6 rounded-lg shadow-lg">
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-center mb-6 text-gray-800">
-            Profile Details
-          </h1>
+          {/* Profile Details */}
+          <div className="bg-gray-100 p-3 sm:p-6 rounded-lg shadow-lg">
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-center mb-6 text-gray-800">
+              Profile Details
+            </h1>
 
-          {/* Profile Section */}
-          <div className="bg-white p-4 sm:p-6 mb-6 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-              {/* Image and Basic Info */}
-              <div className="flex flex-col sm:flex-row items-center justify-around p-4 space-y-4 sm:space-y-0">
-                <div className="relative group w-32 h-32">
-                  {/* Profile Image Section */}
-                  {patient.profile_picture ? (
-                    <img
-                      src={patient.profile_picture}
-                      alt="Profile"
-                      className="w-full h-full rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center">
-                      <span className="text-gray-600 text-xl">
-                        {patient.full_name?.charAt(0)}
-                      </span>
+            {/* Profile Section */}
+            <div className="bg-white p-4 sm:p-6 mb-6 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                {/* Image and Basic Info */}
+                <div className="flex flex-col sm:flex-row items-center justify-around p-4 space-y-4 sm:space-y-0">
+                  <div className="relative group w-32 h-32">
+                    {/* Profile Image Section */}
+                    {patient.profile_picture ? (
+                      <img
+                        src={patient.profile_picture}
+                        alt="Profile"
+                        className="w-full h-full rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center">
+                        <span className="text-gray-600 text-xl">
+                          {patient.full_name?.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    {/* Image Change Overlay */}
+                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 rounded-lg">
+                      <input
+                        type="file"
+                        id="profilePictureInput"
+                        onChange={handleProfilePictureChange}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                      <button
+                        type="button"
+                        className="bg-white text-black px-2 py-1 rounded-md text-sm"
+                        onClick={() =>
+                          document
+                            .getElementById("profilePictureInput")
+                            ?.click()
+                        }
+                      >
+                        Change Image
+                      </button>
                     </div>
-                  )}
-                  {/* Image Change Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 rounded-lg">
-                    <button
-                      type="button"
-                      className="bg-white text-black px-2 py-1 rounded-md text-sm"
-                      onClick={() => document.getElementById("profile_picture")?.click()}
-                    >
-                      Change Image
-                    </button>
+                  </div>
+
+                  <div className="text-center sm:text-left">
+                    <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
+                      {patient.full_name}
+                    </h2>
+                    <p className="text-gray-600">ID: {patient.patient_id}</p>
+                    <p className="text-gray-600">Status: {patient.status}</p>
                   </div>
                 </div>
 
-                <div className="text-center sm:text-left">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
-                    {patient.full_name}
-                  </h2>
-                  <p className="text-gray-600">ID: {patient.patient_id}</p>
-                  <p className="text-gray-600">Status: {patient.status}</p>
+                {/* Physical Information */}
+                <div className="bg-white p-4 border-t-4 sm:border-t-0 sm:border-x-4 border-gray-200">
+                  <h3 className="mb-4 text-gray-800">Physical Information</h3>
+                  <p>
+                    <span className=" text-gray-600">Age:</span>{" "}
+                    {new Date().getFullYear() -
+                      new Date(patient.date_of_birth).getFullYear()}{" "}
+                    years
+                  </p>
+                  <p>
+                    <span className=" text-gray-600">Weight:</span>{" "}
+                    {patient.weight.value} {patient.weight.unit}
+                  </p>
+                  <p>
+                    <span className=" text-gray-600">Blood Group:</span>{" "}
+                    {patient.blood_group}
+                  </p>
+                  <p>
+                    <span className=" text-gray-600">Height:</span>{" "}
+                    {patient?.height
+                      ? `${patient.height.feet} feet ${patient.height.inches} inches`
+                      : "N/A"}
+                  </p>
+                </div>
+
+                {/* Personal Information */}
+                <div className="bg-white p-4">
+                  <h3 className=" mb-4 text-gray-800">Personal Information</h3>
+                  <p>
+                    <span className="text-gray-600">Gender:</span>{" "}
+                    {patient.gender}
+                  </p>
+                  {patient.address && (
+                    <p>
+                      <span className=" text-gray-600">Address:</span>{" "}
+                      {`${patient.address.street}, ${patient.address.city}`}
+                    </p>
+                  )}
+                  <p>
+                    <span className=" text-gray-600">Phone Number:</span>{" "}
+                    {patient.phone_number}
+                  </p>
+                  <p>
+                    <span className=" text-gray-600">Patient Email:</span>{" "}
+                    {patient.email}
+                  </p>
                 </div>
               </div>
-
-              {/* Physical Information */}
-              <div className="bg-white p-4 border-t-4 sm:border-t-0 sm:border-x-4 border-gray-200">
-                <h3 className="mb-4 text-gray-800">Physical Information</h3>
-                <p>
-                  <span className=" text-gray-600">Age:</span>{" "}
-                  {new Date().getFullYear() -
-                    new Date(patient.date_of_birth).getFullYear()}{" "}
-                  years
-                </p>
-                <p>
-                  <span className=" text-gray-600">Weight:</span>{" "}
-                  {patient.weight.value} {patient.weight.unit}
-                </p>
-                <p>
-                  <span className=" text-gray-600">Blood Group:</span>{" "}
-                  {patient.blood_group}
-                </p>
-                <p>
-                  <span className=" text-gray-600">Height:</span>{" "}
-                  {patient?.height
-                    ? `${patient.height.feet} feet ${patient.height.inches} inches`
-                    : "N/A"}
-                </p>
-              </div>
-
-              {/* Personal Information */}
-              <div className="bg-white p-4">
-                <h3 className=" mb-4 text-gray-800">Personal Information</h3>
-                <p>
-                  <span className="text-gray-600">Gender:</span>{" "}
-                  {patient.gender}
-                </p>
-                {patient.address && (
-                  <p>
-                    <span className=" text-gray-600">Address:</span>{" "}
-                    {`${patient.address.street}, ${patient.address.city}`}
-                  </p>
-                )}
-                <p>
-                  <span className=" text-gray-600">Phone Number:</span>{" "}
-                  {patient.phone_number}
-                </p>
-                <p>
-                  <span className=" text-gray-600">Patient Email:</span>{" "}
-                  {patient.email}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Medical Reports and Other Sections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {/* Medical Reports */}
-            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                Medical Reports
-              </h3>
-              <ul className="space-y-4">
-                {patient.medical_reports &&
-                patient.medical_reports.length > 0 ? (
-                  patient.medical_reports.map((report) => (
-                    <li
-                      key={report._id}
-                      className=" bg-gray-50 rounded-md shadow-sm flex justify-between items-center py-1 px-2"
-                    >
-                      <p className="font-semibold text-gray-600 mb-2">
-                        Document {patient.medical_reports.indexOf(report) + 1}
-                      </p>
-                      <PdfViewer fileUrl={report.url} />
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-gray-600">No medical reports available.</p>
-                )}
-              </ul>
             </div>
 
-            {/* Health Information */}
-            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                Health Information
-              </h3>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Medical History:
-                </span>{" "}
-                {patient.medical_history}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Current Medications:
-                </span>{" "}
-                {patient.current_medications}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">Allergies:</span>{" "}
-                {patient.allergies}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Chronic Conditions:
-                </span>{" "}
-                {patient.chronic_conditions}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Family Medical History:
-                </span>{" "}
-                {patient.family_medical_history}
-              </p>
-              {patient.emergency_contact && (
+            {/* Medical Reports and Other Sections */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {/* Medical Reports */}
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  Medical Reports
+                </h3>
+                <ul className="space-y-4">
+                  {patient.medical_reports &&
+                  patient.medical_reports.length > 0 ? (
+                    patient.medical_reports.map((report) => (
+                      <li
+                        key={report._id}
+                        className=" bg-gray-50 rounded-md shadow-sm flex justify-between items-center py-1 px-2"
+                      >
+                        <p className="font-semibold text-gray-600 mb-2">
+                          Document {patient.medical_reports.indexOf(report) + 1}
+                        </p>
+                        <PdfViewer fileUrl={report.url} />
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-600">
+                      No medical reports available.
+                    </p>
+                  )}
+                </ul>
+              </div>
+
+              {/* Health Information */}
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  Health Information
+                </h3>
                 <p>
                   <span className="font-semibold text-gray-600">
-                    Emergency Contact:
+                    Medical History:
                   </span>{" "}
-                  {`${patient.emergency_contact.name}, ${patient.emergency_contact.relationship}, ${patient.emergency_contact.phone_number}`}
+                  {patient.medical_history}
                 </p>
-              )}
-            </div>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Current Medications:
+                  </span>{" "}
+                  {patient.current_medications}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Allergies:
+                  </span>{" "}
+                  {patient.allergies}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Chronic Conditions:
+                  </span>{" "}
+                  {patient.chronic_conditions}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Family Medical History:
+                  </span>{" "}
+                  {patient.family_medical_history}
+                </p>
+                {patient.emergency_contact && (
+                  <p>
+                    <span className="font-semibold text-gray-600">
+                      Emergency Contact:
+                    </span>{" "}
+                    {`${patient.emergency_contact.name}, ${patient.emergency_contact.relationship}, ${patient.emergency_contact.phone_number}`}
+                  </p>
+                )}
+              </div>
 
-            {/* Other Information */}
-            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                Other Information
-              </h3>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Verification Status:
-                </span>{" "}
-                {patient.verification_status}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Terms Accepted:
-                </span>{" "}
-                {patient.terms_accepted ? "Yes" : "No"}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Identity Verified:
-                </span>{" "}
-                {patient.identity_verified ? "Yes" : "No"}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-600">
-                  Consent Form Signed:
-                </span>{" "}
-                {patient.consent_form_signed ? "Yes" : "No"}
-              </p>
-              {patient.approval && (
-                <div>
-                  <p>
-                    <span className="font-semibold text-gray-600">
-                      Approval Status:
-                    </span>{" "}
-                    {patient.approval.status}
-                  </p>
-                  <p>
-                    <span className="font-semibold text-gray-600">
-                      Approval Reason:
-                    </span>{" "}
-                    {patient.approval.reason}
-                  </p>
-                </div>
-              )}
+              {/* Other Information */}
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  Other Information
+                </h3>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Verification Status:
+                  </span>{" "}
+                  {patient.verification_status}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Terms Accepted:
+                  </span>{" "}
+                  {patient.terms_accepted ? "Yes" : "No"}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Identity Verified:
+                  </span>{" "}
+                  {patient.identity_verified ? "Yes" : "No"}
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-600">
+                    Consent Form Signed:
+                  </span>{" "}
+                  {patient.consent_form_signed ? "Yes" : "No"}
+                </p>
+                {patient.approval && (
+                  <div>
+                    <p>
+                      <span className="font-semibold text-gray-600">
+                        Approval Status:
+                      </span>{" "}
+                      {patient.approval.status}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-600">
+                        Approval Reason:
+                      </span>{" "}
+                      {patient.approval.reason}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -539,7 +568,11 @@ const PatientProfile = () => {
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
                   Update Profile
                 </h1>
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <input
                       type="text"

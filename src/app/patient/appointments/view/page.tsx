@@ -218,6 +218,14 @@ const AppointmentsPage = () => {
             </div>
           ))}
         </div>
+
+        {/* No Appointments */}
+        {appointments.length === 0 && (
+          <div className="text-gray-500 text-center mt-6">
+            No appointments found.
+          </div>
+        )}
+        
       </div>
     </PatientLayout>
   );
